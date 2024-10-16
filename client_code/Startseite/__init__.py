@@ -18,4 +18,9 @@ class Startseite(StartseiteTemplate):
     # items = []
     # for x in anvil.server.call('return_text_from_file'):
     #   items.append((x[1], x[0]))
-    self.drop_down_1.items = anvil.server.call('return_text_from_file', 'name, JID')
+    self.drop_down_1.items = anvil.server.call("return_text_from_file", 'name, JID')
+
+  def drop_down_1_change(self, **event_args):
+    jid = self.drop_down_1.items[self.drop_down_1.selected_value - 1][1]
+    print(jid)
+    print(anvil.server.call("get_zimmer", jid, '*', self.data_grid_1))

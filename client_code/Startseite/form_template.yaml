@@ -1,9 +1,4 @@
 components:
-- components: []
-  layout_properties: {slot: nav-right}
-  name: navbar_links
-  properties: {}
-  type: FlowPanel
 - components:
   - layout_properties: {grid_position: 'OXZKNS,XTRLCN'}
     name: label_1
@@ -13,10 +8,28 @@ components:
   name: content_panel
   properties: {col_widths: '{}'}
   type: ColumnPanel
-- layout_properties: {slot: default}
-  name: drop_down_1
+- components:
+  - event_bindings: {change: drop_down_1_change}
+    name: drop_down_1
+    properties: {}
+    type: DropDown
+  - components:
+    - name: repeating_panel_1
+      properties: {item_template: Startseite.RowTemplate6}
+      type: RepeatingPanel
+    layout_properties: {}
+    name: data_grid_1
+    properties:
+      columns:
+      - {data_key: column_1, expand: false, id: JKSDUP, title: Zimmer Nummer, width: 276.79998779296875}
+      - {data_key: column_2, expand: false, id: VJQQOR, title: Schlafplätze, width: 262.5999755859375}
+      - {data_key: column_3, expand: false, id: OJLQEN, title: Preis pro Nacht, width: 300.7999267578125}
+      visible: true
+    type: DataGrid
+  layout_properties: {slot: default}
+  name: linear_panel_1
   properties: {}
-  type: DropDown
+  type: LinearPanel
 container:
   properties: {html: '@theme:standard-page.html'}
   type: HtmlTemplate

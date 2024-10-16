@@ -4,6 +4,12 @@ unique_ids:
     theme.css: STZCI7VYQKSDAIVIR5W3GF5X3RASKSQ7
   forms:
     Startseite: G3UIM3ZZJODJJGR7AY7X6CCDPEUJTZIX
+    Startseite.RowTemplate1: '1729073544835665204091186.8335'
+    Startseite.RowTemplate2: '1729073570363676146025263.3256'
+    Startseite.RowTemplate3: '1729073598249973618305078.5883'
+    Startseite.RowTemplate4: '1729073625778795034369596.2996'
+    Startseite.RowTemplate5: '1729073851588210028865406.90536'
+    Startseite.RowTemplate6: '1729073860041940776008245.4144'
   modules: {}
   scripts: {}
   server_modules:
