@@ -27,7 +27,7 @@ def return_text_from_file(rows='*'):
   return res
 
 @anvil.server.callable
-def get_zimmer(jid, columns='*', my_datagrid):
+def get_zimmer(jid, columns='*'):
   conn = sqlite3.connect(data_files['jugendherbergen_verwaltung 2.db'])
   cursor = conn.cursor()
   res = list(cursor.execute(f'SELECT {columns} FROM zimmer WHERE JID = {jid}'))

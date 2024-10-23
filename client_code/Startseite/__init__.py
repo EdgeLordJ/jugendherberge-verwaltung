@@ -22,5 +22,12 @@ class Startseite(StartseiteTemplate):
 
   def drop_down_1_change(self, **event_args):
     jid = self.drop_down_1.items[self.drop_down_1.selected_value - 1][1]
+    data = anvil.server.call("get_zimmer", jid, '*')
+    new_row = []
     print(jid)
-    print(anvil.server.call("get_zimmer", jid, '*', self.data_grid_1))
+    print(anvil.server.call("get_zimmer", jid, '*'))
+    for eintrag in data:
+      add = {'ZimmerNr.': eintrag[1], 'Schlafplätze': eintrag[2], 'PreisProNacht': eintrag[3]}
+      new_row.append(add)
+    self.repeating_panel_1.items = new_row
+    
