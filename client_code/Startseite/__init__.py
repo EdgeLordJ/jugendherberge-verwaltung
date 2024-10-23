@@ -27,7 +27,8 @@ class Startseite(StartseiteTemplate):
     print(jid)
     print(anvil.server.call("get_zimmer", jid, '*'))
     for eintrag in data:
-      add = {'ZimmerNr.': eintrag[1], 'Schlafplätze': eintrag[2], 'PreisProNacht': eintrag[3]}
+      # Funktion für Preiskategorie oder View
+      add = {'ZimmerNr.': eintrag[3], 'Schlafplätze': eintrag[4], 'PreisProNacht': eintrag[1]}
       new_row.append(add)
     self.repeating_panel_1.items = new_row
     
