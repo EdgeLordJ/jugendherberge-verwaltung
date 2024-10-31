@@ -12,12 +12,6 @@ class Startseite(StartseiteTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.    
-    print(anvil.server.call("say_hello", "sauron"))
-    print(anvil.server.call('return_text_from_file'))
-
-    # items = []
-    # for x in anvil.server.call('return_text_from_file'):
-    #   items.append((x[1], x[0]))
     self.drop_down_1.items = anvil.server.call("return_text_from_file", 'name, JID')
 
   def drop_down_1_change(self, **event_args):
