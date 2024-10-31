@@ -11,13 +11,6 @@ import sqlite3
 #
 # To allow anvil.server.call() to call functions here, we mark
 # them with @anvil.server.callable.
-# Here is an example - you can replace it with your own:
-#
-@anvil.server.callable
-def say_hello(name):
-  print("Hello, " + name + "!")
-  return 42
-
 @anvil.server.callable
 def return_text_from_file(rows='*'):
   conn = sqlite3.connect(data_files['jugendherbergen_verwaltung.db'])
@@ -34,3 +27,12 @@ def get_zimmer(jid, columns='*'):
   print(res)
   conn.close()
   return res
+
+@anvil.server.callable
+def get_preiskategorie(pid, col):
+  conn = sqlite3.connect(data_files['jugendherbergen_verwaltung.db'])
+  cursor = conn.cursor()
+  res = list(cursor.execute(f'SELECT {col} FROM preiskategorie WHERE PID = {pid}'))
+  print(res[0][0])
+  conn.close()
+  return res[0][0]
