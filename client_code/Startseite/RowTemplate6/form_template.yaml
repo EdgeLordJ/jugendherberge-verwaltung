@@ -1,7 +1,7 @@
 components:
 - layout_properties: {column: CUWXJO}
   name: radio_button_1
-  properties: {text: ''}
+  properties: {align: center, text: ''}
   type: RadioButton
 container: {type: DataRowPanel}
 is_package: true

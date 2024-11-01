@@ -1,7 +1,0 @@
-components:
-- layout_properties: {grid_position: 'EPGBTI,UHNHUC'}
-  name: repeating_panel_1
-  properties: {item_template: Startseite.BenutzerTemplate.ItemTemplate8}
-  type: RepeatingPanel
-container: {type: ColumnPanel}
-is_package: true

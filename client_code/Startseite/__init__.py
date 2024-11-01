@@ -37,4 +37,14 @@ class Startseite(StartseiteTemplate):
     if not self.placeholder2_removed:
       self.drop_down_2.items = self.drop_down_2.items[1:]
       self.placeholder2_removed = True
-    
+    users = anvil.server.call("get_benutzer", 'vorname, nachname')
+    new_row = []
+    for user in users:
+      if not(f'{user[0]} {user[1]}' == self.drop_down_2.selected_value):
+        add = {'vorname': user[0], 'nachname': user[1]}
+        new_row.append(add)
+    self.repeating_panel_2.items = new_row
+
+  def outlined_button_1_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    pass

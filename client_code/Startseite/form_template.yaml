@@ -28,8 +28,8 @@ components:
       columns:
       - {data_key: ZimmerNr., expand: false, id: JKSDUP, title: Zimmer Nummer, width: 229.39996337890625}
       - {data_key: Schlafplätze, expand: false, id: VJQQOR, title: Schlafplätze, width: 233.39996337890625}
-      - {data_key: Preiskategorie, expand: false, id: OJLQEN, title: Preiskategorie, width: 199.4000244140625}
-      - {data_key: BuchenBtn, expand: false, id: CUWXJO, title: 'Buchen?', width: 168.4000244140625}
+      - {data_key: Preiskategorie, expand: false, id: OJLQEN, title: Preiskategorie, width: 299}
+      - {data_key: BuchenBtn, expand: false, id: CUWXJO, title: 'Buchen?', width: 81.4000244140625}
       visible: true
     type: DataGrid
   - event_bindings: {change: drop_down_2_change}
@@ -50,10 +50,41 @@ components:
       - {data_key: vorname, expand: false, id: VJQQOR, title: Vorname, width: 353.79998779296875}
       - {data_key: nachname, id: OJLQEN, title: Nachname}
     type: DataGrid
+  - components:
+    - layout_properties: {grid_position: 'DTVDAO,NNOATP AYBGNV,RNIVZY'}
+      name: label_2
+      properties: {text: Anreise}
+      type: Label
+    - data_bindings: []
+      layout_properties: {grid_position: 'DTVDAO,NNOATP RYGSCA,LREIPB'}
+      name: date_picker_1
+      properties: {format: YYYY-MM-DD, pick_time: false}
+      type: DatePicker
+    - layout_properties: {grid_position: 'DTVDAO,KHRLVN ZAMQWW,XYVUBA'}
+      name: label_3
+      properties: {text: Abreise}
+      type: Label
+    - layout_properties: {grid_position: 'DTVDAO,KHRLVN FOPRPI,NAXYXR'}
+      name: date_picker_2
+      properties: {format: YYYY-MM-DD}
+      type: DatePicker
+    layout_properties: {}
+    name: column_panel_1
+    properties:
+      spacing:
+        margin: ['0', null, '0', '0']
+        padding: [null, null, null, null]
+      wrap_on: mobile
+    type: ColumnPanel
   layout_properties: {slot: default}
   name: linear_panel_1
   properties: {}
   type: LinearPanel
+- event_bindings: {click: outlined_button_1_click}
+  layout_properties: {slot: nav-right}
+  name: outlined_button_1
+  properties: {role: outlined-button, text: Buchen}
+  type: Button
 container:
   data_bindings: []
   properties: {html: '@theme:standard-page.html'}
