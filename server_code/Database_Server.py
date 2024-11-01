@@ -45,3 +45,4 @@ def get_benutzer(cols='*'):
   print(res)
   conn.close()
   return res
+

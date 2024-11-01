@@ -45,6 +45,19 @@ class Startseite(StartseiteTemplate):
         new_row.append(add)
     self.repeating_panel_2.items = new_row
 
+  def get_selected_radio_info(self):
+    for row in self.repeating_panel_1.get_components():
+      zimmer_num = row.get_components()[0]  # Annahme: RadioButton ist das erste Element
+      plaetze = row.get_components()[1]      # Annahme: CheckBox ist das zweite Element
+      radio_btn = row.get_components()[3]    # Annahme: Info ist das dritte Element
+      
+      if radio_btn.selected:  # Überprüfen, ob der RadioButton ausgewählt ist
+        return {
+          'info': info_label.text
+        }
+    
+    return None
+  
   def outlined_button_1_click(self, **event_args):
     """This method is called when the button is clicked"""
     pass
