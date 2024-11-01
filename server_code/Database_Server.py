@@ -12,10 +12,10 @@ import sqlite3
 # To allow anvil.server.call() to call functions here, we mark
 # them with @anvil.server.callable.
 @anvil.server.callable
-def return_text_from_file(rows='*'):
+def return_text_from_file(cols='*'):
   conn = sqlite3.connect(data_files['jugendherbergen_verwaltung.db'])
   cursor = conn.cursor()
-  res = list(cursor.execute(f'SELECT {rows} FROM jugendherbergen'))
+  res = list(cursor.execute(f'SELECT {cols} FROM jugendherbergen'))
   print(res)
   return res
 
@@ -29,10 +29,19 @@ def get_zimmer(jid, columns='*'):
   return res
 
 @anvil.server.callable
-def get_preiskategorie(pid, col):
+def get_preiskategorie(pid, cols):
   conn = sqlite3.connect(data_files['jugendherbergen_verwaltung.db'])
   cursor = conn.cursor()
-  res = list(cursor.execute(f'SELECT {col} FROM preiskategorie WHERE PID = {pid}'))
+  res = list(cursor.execute(f'SELECT {cols} FROM preiskategorie WHERE PID = {pid}'))
   print(res[0][0])
   conn.close()
   return res[0][0]
+
+@anvil.server.callable
+def get_benutzer(cols='*'):
+  conn = sqlite3.connect(data_files['jugendherbergen_verwaltung.db'])
+  cursor = conn.cursor()
+  res = list(cursor.execute(f'SELECT {cols} FROM Benutzer'))
+  print(res)
+  conn.close()
+  return res

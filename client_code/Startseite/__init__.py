@@ -14,6 +14,10 @@ class Startseite(StartseiteTemplate):
     # Any code you write here will run before the form opens.    
     self.drop_down_1.items += anvil.server.call("return_text_from_file", 'name, JID')
     self.placeholder_removed = False
+    users = anvil.server.call("get_benutzer", 'vorname, nachname')
+    for vorname, nachname in users:
+      self.drop_down_2.items += [f'{vorname} {nachname}']
+    self.placeholder2_removed = False
 
   def drop_down_1_change(self, **event_args):
     if not self.placeholder_removed:
@@ -29,4 +33,8 @@ class Startseite(StartseiteTemplate):
       new_row.append(add)
     self.repeating_panel_1.items = new_row
 
-  
+  def drop_down_2_change(self, **event_args):
+    if not self.placeholder2_removed:
+      self.drop_down_2.items = self.drop_down_2.items[1:]
+      self.placeholder2_removed = True
+    

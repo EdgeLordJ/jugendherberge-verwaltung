@@ -31,6 +31,16 @@ components:
       - {data_key: Preiskategorie, expand: false, id: OJLQEN, title: Preiskategorie, width: 300.7999267578125}
       visible: true
     type: DataGrid
+  - event_bindings: {change: drop_down_2_change}
+    layout_properties: {}
+    name: drop_down_2
+    properties:
+      items: ['Wer bist du?']
+    type: DropDown
+  - layout_properties: {}
+    name: repeating_panel_2
+    properties: {item_template: Startseite.BenutzerTemplate}
+    type: RepeatingPanel
   layout_properties: {slot: default}
   name: linear_panel_1
   properties: {}
