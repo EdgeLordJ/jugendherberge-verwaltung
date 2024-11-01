@@ -26,9 +26,10 @@ components:
     name: data_grid_1
     properties:
       columns:
-      - {data_key: ZimmerNr., expand: false, id: JKSDUP, title: Zimmer Nummer, width: 274.79998779296875}
-      - {data_key: Schlafplätze, expand: false, id: VJQQOR, title: Schlafplätze, width: 262.5999755859375}
-      - {data_key: Preiskategorie, expand: false, id: OJLQEN, title: Preiskategorie, width: 300.7999267578125}
+      - {data_key: ZimmerNr., expand: false, id: JKSDUP, title: Zimmer Nummer, width: 229.39996337890625}
+      - {data_key: Schlafplätze, expand: false, id: VJQQOR, title: Schlafplätze, width: 233.39996337890625}
+      - {data_key: Preiskategorie, expand: false, id: OJLQEN, title: Preiskategorie, width: 199.4000244140625}
+      - {data_key: BuchenBtn, expand: false, id: CUWXJO, title: 'Buchen?', width: 168.4000244140625}
       visible: true
     type: DataGrid
   - event_bindings: {change: drop_down_2_change}
@@ -37,10 +38,18 @@ components:
     properties:
       items: ['Wer bist du?']
     type: DropDown
-  - layout_properties: {}
-    name: repeating_panel_2
-    properties: {item_template: Startseite.BenutzerTemplate}
-    type: RepeatingPanel
+  - components:
+    - name: repeating_panel_2
+      properties: {item_template: Startseite.RowTemplate7}
+      type: RepeatingPanel
+    layout_properties: {}
+    name: data_grid_2
+    properties:
+      columns:
+      - {data_key: column_1, expand: false, id: JKSDUP, title: Gast mit buchen, width: 149}
+      - {data_key: vorname, expand: false, id: VJQQOR, title: Vorname, width: 353.79998779296875}
+      - {data_key: nachname, id: OJLQEN, title: Nachname}
+    type: DataGrid
   layout_properties: {slot: default}
   name: linear_panel_1
   properties: {}
