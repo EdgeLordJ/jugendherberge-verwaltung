@@ -23,7 +23,7 @@ def return_text_from_file(cols='*'):
 def get_zimmer(jid, columns='*'):
   conn = sqlite3.connect(data_files['jugendherbergen_verwaltung.db'])
   cursor = conn.cursor()
-  res = list(cursor.execute(f'SELECT {columns} FROM zimmer WHERE JID = {jid}'))
+  res = list(cursor.execute(f'SELECT {columns} FROM zimmer WHERE JID = {jid} AND belegt IS NOT 1'))
   print(res)
   conn.close()
   return res
