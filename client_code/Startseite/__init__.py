@@ -57,7 +57,34 @@ class Startseite(StartseiteTemplate):
         }
     
     return None
+
+  def get_selected_checkboxes(self):
+    selected_persons = []
+    count = 1
+    
+    for row in self.repeating_panel_2.get_components():
+        checkbox = row.get_components()[0]
+        vorname = row.get_components()[1]
+        nachname = row.get_components()[2]
+        
+        if checkbox.checked:
+            count += 1
+            selected_persons.append({
+                'vorname': vorname.text,
+                'nachname': nachname.text
+            })
+    
+    return {
+        'count': count,
+        'persons': selected_persons
+    }
   
   def outlined_button_1_click(self, **event_args):
     data = self.get_selected_radio_info()
+    users = self.get_selected_checkboxes()
     print(data)
+    print(users)
+    if not data['plaetze'] < users['count']:
+      pass
+    else:
+      alert("Bitte wählen Sie so viele Gäste, wie die Anzahl an Schlafplätzen.")
