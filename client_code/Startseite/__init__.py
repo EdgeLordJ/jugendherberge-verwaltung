@@ -4,6 +4,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
+import datetime
 
 
 class Startseite(StartseiteTemplate):
@@ -18,6 +19,8 @@ class Startseite(StartseiteTemplate):
     for vorname, nachname in users:
       self.drop_down_2.items += [f'{vorname} {nachname}']
     self.placeholder2_removed = False
+    self.date_picker_1.min_date = datetime.date.today()
+    self.date_picker_2.min_date = datetime.date.today()
 
   def drop_down_1_change(self, **event_args):
     if not self.placeholder_removed:
@@ -25,24 +28,45 @@ class Startseite(StartseiteTemplate):
       self.placeholder_removed = True
     jid = self.drop_down_1.items[self.drop_down_1.selected_value - 1][1]
     data = anvil.server.call("get_zimmer", jid, '*')
+    users = anvil.server.call("get_benutzer", 'vorname, nachname, PID')
     new_row = []
     print(jid)
     print(anvil.server.call("get_zimmer", jid, '*'))
     for eintrag in data:
-      add = {'ZimmerNr.': eintrag[3], 'Schlafplätze': eintrag[4], 'Preiskategorie': anvil.server.call('get_preiskategorie', eintrag[1], 'name')}
-      new_row.append(add)
+      if self.drop_down_2.selected_value == "Wer bist du?":
+        add = {'ZimmerNr.': eintrag[3], 'Schlafplätze': eintrag[4], 'Preiskategorie': anvil.server.call('get_preiskategorie', eintrag[1], 'name')}
+        new_row.append(add)
+      else:
+        for user in users:
+          if (f'{user[0]} {user[1]}' == self.drop_down_2.selected_value) & (anvil.server.call('get_preiskategorie', eintrag[1], 'name') == anvil.server.call('get_preiskategorie', user[2], 'name')):
+              add = {'ZimmerNr.': eintrag[3], 'Schlafplätze': eintrag[4], 'Preiskategorie': anvil.server.call('get_preiskategorie', eintrag[1], 'name')}
+              new_row.append(add)
     self.repeating_panel_1.items = new_row
 
   def drop_down_2_change(self, **event_args):
     if not self.placeholder2_removed:
       self.drop_down_2.items = self.drop_down_2.items[1:]
       self.placeholder2_removed = True
-    users = anvil.server.call("get_benutzer", 'vorname, nachname')
+    users = anvil.server.call("get_benutzer", 'vorname, nachname, PID')
     new_row = []
     for user in users:
-      if not(f'{user[0]} {user[1]}' == self.drop_down_2.selected_value):
+      if f'{user[0]} {user[1]}' != self.drop_down_2.selected_value:
         add = {'vorname': user[0], 'nachname': user[1]}
         new_row.append(add)
+      else:
+        if self.drop_down_1.selected_value != "Wähle eine Jugendherberge...":
+          jid = self.drop_down_1.items[self.drop_down_1.selected_value - 1][1]
+          data = anvil.server.call("get_zimmer", jid, '*')
+          new_rooms = []
+          print(jid)
+          print(anvil.server.call("get_zimmer", jid, '*'))
+          for eintrag in data:
+            if anvil.server.call('get_preiskategorie', eintrag[1], 'name') == anvil.server.call('get_preiskategorie', user[2], 'name'):
+              add = {'ZimmerNr.': eintrag[3], 'Schlafplätze': eintrag[4], 'Preiskategorie': anvil.server.call('get_preiskategorie', eintrag[1], 'name')}
+              new_rooms.append(add)
+          self.repeating_panel_1.items = new_rooms
+        else:
+          pass
     self.repeating_panel_2.items = new_row
 
   def get_selected_radio_info(self):
@@ -82,9 +106,17 @@ class Startseite(StartseiteTemplate):
   def outlined_button_1_click(self, **event_args):
     data = self.get_selected_radio_info()
     users = self.get_selected_checkboxes()
-    print(data)
-    print(users)
-    if not data['plaetze'] < users['count']:
-      pass
+    start = self.date_picker_1.date
+    end = self.date_picker_2.date
+    if start >= end:
+      alert("Bitte wählen Sie einen gültigen Datum.")
     else:
-      alert("Bitte wählen Sie so viele Gäste, wie die Anzahl an Schlafplätzen.")
+      print(data)
+      print(users)
+      try:
+        if not data['plaetze'] < users['count']:
+          pass
+        else:
+          alert("Bitte wählen Sie so viele Gäste, wie die Anzahl an Schlafplätzen.")
+      except:
+        alert("Bitte wählen Sie alles nötige aus.")
