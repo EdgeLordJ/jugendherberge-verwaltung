@@ -16,7 +16,6 @@ def return_text_from_file(cols='*'):
   conn = sqlite3.connect(data_files['jugendherbergen_verwaltung.db'])
   cursor = conn.cursor()
   res = list(cursor.execute(f'SELECT {cols} FROM jugendherbergen'))
-  print(res)
   return res
 
 @anvil.server.callable
@@ -24,7 +23,6 @@ def get_zimmer(jid, columns='*'):
   conn = sqlite3.connect(data_files['jugendherbergen_verwaltung.db'])
   cursor = conn.cursor()
   res = list(cursor.execute(f'SELECT {columns} FROM zimmer WHERE JID = {jid} AND belegt IS NOT 1'))
-  print(res)
   conn.close()
   return res
 
@@ -33,7 +31,6 @@ def get_preiskategorie(pid, cols):
   conn = sqlite3.connect(data_files['jugendherbergen_verwaltung.db'])
   cursor = conn.cursor()
   res = list(cursor.execute(f'SELECT {cols} FROM preiskategorie WHERE PID = {pid}'))
-  print(res[0][0])
   conn.close()
   return res[0][0]
 
@@ -42,7 +39,20 @@ def get_benutzer(cols='*'):
   conn = sqlite3.connect(data_files['jugendherbergen_verwaltung.db'])
   cursor = conn.cursor()
   res = list(cursor.execute(f'SELECT {cols} FROM Benutzer'))
-  print(res)
   conn.close()
   return res
 
+@anvil.server.callable
+def insert_booking(room, users, reg_user, start, end, jid):
+  conn = sqlite3.connect(data_files['jugendherbergen_verwaltung.db'])
+  cursor = conn.cursor()
+  reg_vorname, reg_nachname = reg_user.split(" ")
+  zid = list(cursor.execute(f'SELECT ZID FROM zimmer WHERE JID = {jid} AND zimmernummer = {room}'))[0][0]
+  bid = list(cursor.execute(f'SELECT BID FROM Benutzer WHERE vorname = "{reg_vorname}" AND nachname = "{reg_nachname}"'))[0][0]
+  cursor.execute(f'UPDATE zimmer SET belegt = 1 WHERE ZID = {zid}')
+  cursor.execute(f'INSERT INTO Buchung (ZID, BID, anreise, abreise) VALUES ({zid}, {bid}, "{start}", "{end}")')
+  for user in users:
+    cursor.execute(f'INSERT INTO MitGebuchteBenutzer (BID, vorname, nachname) VALUES ({bid}, "{user["vorname"]}", "{user["nachname"]}")')
+  conn.commit()
+  conn.close()
+  return "Buchung erfolgreich"

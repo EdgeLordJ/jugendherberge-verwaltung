@@ -30,8 +30,6 @@ class Startseite(StartseiteTemplate):
     data = anvil.server.call("get_zimmer", jid, '*')
     users = anvil.server.call("get_benutzer", 'vorname, nachname, PID')
     new_row = []
-    print(jid)
-    print(anvil.server.call("get_zimmer", jid, '*'))
     for eintrag in data:
       if self.drop_down_2.selected_value == "Wer bist du?":
         add = {'ZimmerNr.': eintrag[3], 'Schlafplätze': eintrag[4], 'Preiskategorie': anvil.server.call('get_preiskategorie', eintrag[1], 'name')}
@@ -58,8 +56,6 @@ class Startseite(StartseiteTemplate):
           jid = self.drop_down_1.items[self.drop_down_1.selected_value - 1][1]
           data = anvil.server.call("get_zimmer", jid, '*')
           new_rooms = []
-          print(jid)
-          print(anvil.server.call("get_zimmer", jid, '*'))
           for eintrag in data:
             if anvil.server.call('get_preiskategorie', eintrag[1], 'name') == anvil.server.call('get_preiskategorie', user[2], 'name'):
               add = {'ZimmerNr.': eintrag[3], 'Schlafplätze': eintrag[4], 'Preiskategorie': anvil.server.call('get_preiskategorie', eintrag[1], 'name')}
@@ -104,19 +100,27 @@ class Startseite(StartseiteTemplate):
     }
   
   def outlined_button_1_click(self, **event_args):
-    data = self.get_selected_radio_info()
-    users = self.get_selected_checkboxes()
+    room = self.get_selected_radio_info()
+    booked_users = self.get_selected_checkboxes()
     start = self.date_picker_1.date
     end = self.date_picker_2.date
-    if start >= end:
-      alert("Bitte wählen Sie einen gültigen Datum.")
-    else:
-      print(data)
-      print(users)
-      try:
-        if not data['plaetze'] < users['count']:
-          pass
+    try:
+      if start >= end:
+        alert("Bitte wählen Sie einen gültigen Datum.")
+      else:
+        if not room['plaetze'] < booked_users['count']:
+          jid = self.drop_down_1.items[self.drop_down_1.selected_value - 1][1]
+          alert(anvil.server.call('insert_booking', room['zimmer_num'], booked_users['persons'], self.drop_down_2.selected_value, start, end, jid))
+          data = anvil.server.call("get_zimmer", jid, '*')
+          users = anvil.server.call("get_benutzer", 'vorname, nachname, PID')
+          new_row = []
+          for eintrag in data:
+            for user in users:
+              if (f'{user[0]} {user[1]}' == self.drop_down_2.selected_value) & (anvil.server.call('get_preiskategorie', eintrag[1], 'name') == anvil.server.call('get_preiskategorie', user[2], 'name')):
+                  add = {'ZimmerNr.': eintrag[3], 'Schlafplätze': eintrag[4], 'Preiskategorie': anvil.server.call('get_preiskategorie', eintrag[1], 'name')}
+                  new_row.append(add)
+          self.repeating_panel_1.items = new_row
         else:
           alert("Bitte wählen Sie so viele Gäste, wie die Anzahl an Schlafplätzen.")
-      except:
-        alert("Bitte wählen Sie alles nötige aus.")
+    except:
+      alert("Bitte wählen Sie alles nötige aus.")
