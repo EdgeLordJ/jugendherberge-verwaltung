@@ -1,0 +1,7 @@
+components:
+- layout_properties: {column: OJLQEN}
+  name: button_1
+  properties: {text: button_1}
+  type: Button
+container: {type: DataRowPanel}
+is_package: true

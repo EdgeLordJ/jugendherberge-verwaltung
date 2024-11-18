@@ -16,6 +16,7 @@ def return_text_from_file(cols='*'):
   conn = sqlite3.connect(data_files['jugendherbergen_verwaltung.db'])
   cursor = conn.cursor()
   res = list(cursor.execute(f'SELECT {cols} FROM jugendherbergen'))
+  conn.close()
   return res
 
 @anvil.server.callable
